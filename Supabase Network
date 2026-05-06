@@ -14,13 +14,32 @@ const char* password = "autogarden";
 //Supabase autoWaterSupabase;
 
 void setup() {
+  delay(5000);
   Serial.begin(115200);
 
   // Connect to Wi-Fi
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.disconnect();
+//  WiFi.begin(ssid, password);
 
   Serial.println("Program started!");
+
+  delay(1000);
+  int n = WiFi.scanNetworks();
+  if (n < 0) {
+    Serial.println(n);
+    Serial.println("Error connecting to WiFi");
+  }
+  else if (n == 0) {
+    Serial.println("No WiFi networks detected");
+  }
+  else {
+    for (int i = 1; i <= n; i++) {
+      Serial.println(String(WiFi.SSID(i)));
+      Serial.println(String(WiFi.RSSI(i)));
+      delay(1000);
+    }
+  }
 /*
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -55,11 +74,5 @@ void setup() {
 }
 
 void loop() {
-  int n = WiFi.scanNetworks();
-  Serial.print(n);
-  for (int i = 1; i <= n; i++) {
-    Serial.println(String(WiFi.SSID(i)));
-    Serial.println(String(WiFi.RSSI(i)));
-  }
-  delay(2000);
+
 }
