@@ -1,0 +1,67 @@
+#include <Adafruit_seesaw.h>
+#include <Wire.h>
+#include <WiFi.h>
+#include <ESPSupabase.h>
+
+#define I2C_SDA 19
+#define I2C_SCL 21
+
+Adafruit_seesaw ss;
+int leakageCounter = 0;
+
+const char* ssid = "Brandon's iPhone";
+const char* password = "autogarden";
+const char* supabase_url = "https://ahuemhnfznyblzednevz.supabase.co";
+const char* anon_key = "sb_publishable_3DXKR0t110766BUTTeRXJw_L1c0tYDs";
+
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+
+  // Initialize Supabase
+  Supabase.begin(supabase_url, anon_key);
+
+  Wire.begin(I2C_SDA, I2C_SCL);
+
+  Serial.println("seesaw Soil Sensor example!");
+  
+  if (!ss.begin(0x36)) {
+    Serial.println("ERROR! seesaw not found");
+    while(1) delay(1);
+  } else {
+    Serial.print("seesaw started! version: ");
+    Serial.println(ss.getVersion(), HEX);
+  }
+
+  Serial.println("Hello! Setup complete!"); // Display message to demonstrate that microcontroller has started successfully
+  delay(10000);
+  pinMode(32, INPUT); // Set connected pin to input mode
+  Serial.println("The water leak sensor pin is pin 32");
+  delay(10000);
+}
+
+void loop() {
+  float tempC = ss.getTemp();
+  uint16_t capread = ss.touchRead(0);
+
+  Serial.print("Temperature: "); Serial.print(tempC); Serial.println("*C");
+  Serial.print("Capacitive: "); Serial.println(capread);
+  delay(100);
+
+  Serial.println(digitalRead(32));
+  Serial.println(analogRead(32));
+  // put your main code here, to run repeatedly:
+  if (analogRead(32) >= 1) {
+    Serial.println("Water Detected"); // Send a message to serial monitor that water is detected
+  }
+  else {
+    Serial.println("Water Not Detected");
+  }
+//  Serial.println(analogWaterDetection()); // Send a message to serial monitor showing the water level on a scale from 0 to 1
+}
+
+
+
+
