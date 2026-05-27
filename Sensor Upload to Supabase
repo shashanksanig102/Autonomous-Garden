@@ -1,0 +1,81 @@
+// Import WiFi and ESPSupabase Library
+#include <WiFi.h>
+#include <ESPSupabase.h>
+#include <Adafruit_seesaw.h>
+#include <Wire.h>
+
+#define I2C_SDA 19
+#define I2C_SCL 21
+
+Adafruit_seesaw ss;
+int leakageCounter = 0;
+
+// Add you Wi-Fi credentials
+const char* ssid = "brandoniphone";
+const char* password = "autogarden";
+
+// Supabase credentials
+const char* supabaseUrl = "https://ahuemhnfznyblzednevz.supabase.co";
+const char* supabaseKey = "sb_publishable_3DXKR0t110766BUTTeRXJw_L1c0tYDs";
+
+String tableName = "Autonomous Garden";
+
+
+Supabase supabase;
+
+void setup() {
+  
+  Serial.begin(115200);
+
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to Wi-Fi...");
+  }
+  Serial.println("Wi-Fi connected!");
+
+  // Init Supabase
+  supabase.begin(supabaseUrl, supabaseKey);
+  
+  Wire.begin(I2C_SDA, I2C_SCL);
+
+  Serial.println("seesaw Soil Sensor example!");
+  
+  if (!ss.begin(0x36)) {
+    Serial.println("ERROR! seesaw not found");
+    while(1) delay(1);
+  } else {
+    Serial.print("seesaw started! version: ");
+    Serial.println(ss.getVersion(), HEX);
+  }
+  Serial.println("Hello! Setup complete!"); // Display message to demonstrate that microcontroller has started successfully
+  delay(1000);
+  pinMode(32, INPUT); // Set connected pin to input mode
+  Serial.println("The water leak sensor pin is pin 32");
+  delay(1000);
+
+
+
+
+  // Add the table name here
+  // change the correct columns names you create in your table
+  // sending data to supabase
+}
+
+void loop() {
+  String tempC = String(ss.getTemp());
+  String capread = String(ss.touchRead(0));
+  String leakage = String(digitalRead(32));
+
+  String jsonData = String("{\"Soil Moisture\": \"" + capread + "\", \"Temperature\": \"" + tempC + "\", \"Leakage\": \"" + leakage + "\"}");
+
+  int response = supabase.insert(tableName, jsonData, false);
+  if (response == 200) {
+    Serial.println("Data inserted successfully!");
+  } else {
+    Serial.print("Failed to insert data. HTTP response: ");
+    Serial.println(response);
+  }
+  
+}
