@@ -3,12 +3,12 @@
 #include <ESPSupabase.h>
 
 // Add you Wi-Fi credentials
-const char* ssid = "YOUR SSID";
-const char* password = "YOUR PASSWORD";
+const char* ssid = "brandoniphone";
+const char* password = "autogarden";
 
 // Supabase credentials
-const char* supabaseUrl = "YOUR SUPABASE URL";
-const char* supabaseKey = "SUPABASE ANON KEY";
+const char* supabaseUrl = "https://ahuemhnfznyblzednevz.supabase.co";
+const char* supabaseKey = "sb_publishable_3DXKR0t110766BUTTeRXJw_L1c0tYDs";
 
 Supabase supabase;
 
