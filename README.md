@@ -12,7 +12,7 @@ An automated environmental monitoring and smart irrigation system designed to tr
 
 
 ## Tech Stack & Hardware
-• Hardware & Electronics
+• Hardware & Electronics  
         • Microcontroller: ESP32 (Wi-Fi enabled)  
         • Sensors:  
                 • STEMMA QT I2C Lux Sensor  
