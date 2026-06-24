@@ -13,14 +13,14 @@ An automated environmental monitoring and smart irrigation system designed to tr
 
 ## Tech Stack & Hardware
 • Hardware & Electronics
-    • Microcontroller: ESP32 (Wi-Fi enabled)  
-    • Sensors:  
-        • STEMMA QT I2C Lux Sensor  
-        • SparkFun Qwiic Soil Moisture Sensor  
-        • Adafruit STEMMA I2C Capacitive Moisture Sensor  
-        • Grove - Water Sensor (RC0603JR)  
-    • PCB Design: Custom schematics and layout designed in KiCad  
+        • Microcontroller: ESP32 (Wi-Fi enabled)  
+        • Sensors:  
+                • STEMMA QT I2C Lux Sensor  
+                • SparkFun Qwiic Soil Moisture Sensor  
+                • Adafruit STEMMA I2C Capacitive Moisture Sensor  
+                • Grove - Water Sensor (RC0603JR)  
+        • PCB Design: Custom schematics and layout designed in KiCad  
 • Software & Cloud  
-    • Firmware: C/C++ (Arduino IDE)  
-    • Database: Supabase  
-    • Version Control: Git  
+        • Firmware: C/C++ (Arduino IDE)  
+        • Database: Supabase  
+        • Version Control: Git  
